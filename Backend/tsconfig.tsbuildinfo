@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/controllers/auth.ts","./src/db/config.ts","./src/models/content.ts","./src/models/tag.ts","./src/models/user.ts"],"version":"5.6.3"}
+{"root":["./src/index.ts","./src/controllers/auth.ts","./src/db/config.ts","./src/models/content.ts","./src/models/tag.ts","./src/models/user.ts"],"errors":true,"version":"5.6.3"}
