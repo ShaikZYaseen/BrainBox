@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../Models/user';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 // Login Controller
  const loginController = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
