@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Content } from "../Models/content";
 
+// Add Content
 const addContent = async (req: Request, res: Response): Promise<void> => {
   try {
     const { link, type, title }: any = req.body;
@@ -10,7 +11,7 @@ const addContent = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    await Content.create({
+    const content = await Content.create({
       link,
       type,
       title,
@@ -19,13 +20,14 @@ const addContent = async (req: Request, res: Response): Promise<void> => {
       tags: [],
     });
 
-    res.json({ message: "Content added" });
+    res.json({ message: "Content added", content });
   } catch (error) {
     console.error("Error adding content:", error);
     res.status(500).json({ message: "An error occurred while adding content" });
   }
 };
 
+// Delete Content
 const deleteContent = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
@@ -52,6 +54,7 @@ const deleteContent = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// Get Content
 const getContent = async (req: Request, res: Response): Promise<void> => {
   try {
     //@ts-ignore
@@ -71,4 +74,59 @@ const getContent = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export { addContent, deleteContent, getContent };
+// Share Content (Generate Shareable Link)
+const shareContent = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      res.status(400).json({ message: "Content ID is required to generate a shareable link" });
+      return;
+    }
+
+    //@ts-ignore
+    const userId = req.userId;
+
+    const content = await Content.findOne({ _id: id, userId });
+
+    if (!content) {
+      res.status(404).json({ message: "Content not found or not authorized to access" });
+      return;
+    }
+
+    // Assuming a base URL for shareable links
+    const baseUrl = "https://yourapp.com/share";
+    const shareableLink = `${baseUrl}/${content._id}`;
+
+    res.json({ message: "Shareable link generated", link: shareableLink });
+  } catch (error) {
+    console.error("Error generating shareable link:", error);
+    res.status(500).json({ message: "An error occurred while generating the shareable link" });
+  }
+};
+
+// Handle Shareable Link (Access Content by ID)
+const accessSharedContent = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      res.status(400).json({ message: "Content ID is required to access shared content" });
+      return;
+    }
+
+    const content = await Content.findById(id);
+
+    if (!content) {
+      res.status(404).json({ message: "Content not found" });
+      return;
+    }
+
+    res.json({ message: "Content retrieved successfully", content });
+  } catch (error) {
+    console.error("Error retrieving shared content:", error);
+    res.status(500).json({ message: "An error occurred while retrieving shared content" });
+  }
+};
+
+export { addContent, deleteContent, getContent, shareContent, accessSharedContent };
