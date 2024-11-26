@@ -1,16 +1,16 @@
 import  { useEffect } from 'react';
 
-interface InstagramCardProps {
-  link: string;
-  title: string;
-  height?: string;
-  width?: string;
+interface InstagramReelCardProps {
+  reelLink: string;  
+  title: string;     
+  height?: string;  
+  width?: string;    
 }
 
-function InstagramCard({
-  link,
+function InstagramReelCard({
+  reelLink,
   title,
-}: InstagramCardProps) {
+}: InstagramReelCardProps) {
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -25,13 +25,13 @@ function InstagramCard({
 
   return (
     <div
-      className={`p-4 border border-gray-300 rounded-2xl shadow-lg flex flex-col items-center w-[400px]`}
+      className={`p-4 border border-gray-300 rounded-lg shadow-lg flex flex-col items-center h-full w-[400px]`}
     >
-      <h2 className="text-lg font-bold mb-2 w-full flex justify-start">{title}</h2>
+      <h2 className="text-lg font-bold mb-2 flex justify-start w-full">{title}</h2>
       <div className="relative w-full">
         <blockquote
           className="instagram-media"
-          data-instgrm-permalink={link}
+          data-instgrm-permalink={reelLink}
           data-instgrm-version="14"
         ></blockquote>
       </div>
@@ -39,4 +39,4 @@ function InstagramCard({
   );
 }
 
-export default InstagramCard;
+export default InstagramReelCard;
