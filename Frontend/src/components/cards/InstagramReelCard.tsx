@@ -25,9 +25,9 @@ function InstagramReelCard({
 
   return (
     <div
-      className={`p-4 border border-gray-300 rounded-lg shadow-lg flex flex-col items-center h-full w-[400px]`}
+      className={`p-2 border border-gray-300 rounded-lg shadow-lg flex flex-col items-center h-full w-[350px]`}
     >
-      <h2 className="text-lg font-bold mb-2 flex justify-start w-full">{title}</h2>
+      <h2 className="text-lg font-bold mb-2 flex justify-start">{title}</h2>
       <div className="relative w-full">
         <blockquote
           className="instagram-media"
