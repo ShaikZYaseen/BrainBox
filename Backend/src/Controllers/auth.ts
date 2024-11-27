@@ -40,7 +40,7 @@ import { User } from '../Models/user';
 
 // Signup controller
 const signupController = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const { username, email, phone, password } = req.body;
+    const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
         res.status(400).json({ message: "Please provide username, email, and password." });
@@ -48,7 +48,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
     }
 
     try {
-        const userExists = await User.findOne({ $or: [{ email }, { phone }] }).exec();
+        const userExists = await User.findOne({ $or: [{ email }] }).exec();
         if (userExists) {
             res.status(400).json({ message: "Email or phone number already exists." });
             return;
@@ -58,12 +58,11 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         const newUser = new User({
             username,
             email,
-            phone,
             password, // Password will be hashed before saving
         });
 
         // Save the new user
-        await newUser.save();
+        const user = await newUser.save();
 
         // Generate JWT token
         const token = newUser.getJWTToken();
@@ -73,6 +72,7 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
         // Respond with success message and token
         res.status(201).json({
             success: true,
+            user,
             message: "User registered successfully",
             token,
         });
