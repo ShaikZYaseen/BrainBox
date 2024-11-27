@@ -5,6 +5,7 @@ interface ButtonInterface {
     startIcon?: ReactElement;
     size: "lg" | "sm" | "md";
     endIcon?: ReactElement;
+    onclick?: ()=>void;
     variant: "primary" | "secondary";
 }
 
@@ -26,7 +27,7 @@ export function Button(props: ButtonInterface) {
         <button className={className}>
             <div className="flex items-center">
                 {props.startIcon && <span className="mr-2">{props.startIcon}</span>}
-                <span className="rounded-md">{props.text}</span>
+                <button onClick={props.onclick} className="rounded-md">{props.text}</button>
                 {props.endIcon && <span className="ml-2">{props.endIcon}</span>}
             </div>
         </button>

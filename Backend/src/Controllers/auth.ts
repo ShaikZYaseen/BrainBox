@@ -40,7 +40,7 @@ import { User } from '../Models/user';
 
 // Signup controller
 const signupController = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const { username, email, phone, password, image } = req.body;
+    const { username, email, phone, password } = req.body;
 
     if (!username || !email || !password) {
         res.status(400).json({ message: "Please provide username, email, and password." });
@@ -60,7 +60,6 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
             email,
             phone,
             password, // Password will be hashed before saving
-            image,
         });
 
         // Save the new user
