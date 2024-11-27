@@ -2,11 +2,20 @@ import React, { useState } from 'react'
 import Input from './ui/Input'
 import { Button } from './ui/Button'
 import { Link } from 'react-router-dom'
+import { Signupauth } from '../services/auth'
 
 const Signup = () => {
     const [name,setName] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const [loading,setLoading] = useState(false)
+
+    const handleSubmit = async() => {
+       setLoading(true) ;
+       const data = {name,email,password}
+       const response = await Signupauth(data);
+       console.log(response)
+    }
 
   return (
     <div className='w-screen h-screen flex flex-col justify-center items-center bg-black'>
@@ -25,7 +34,7 @@ const Signup = () => {
         <Input size="md" type="password" onChange={(e)=>setPassword(e.target.value)} placeholder='Enter your password'/>
       </div>
       <div className='mt-4'>
-        <Button text="Signup" size="sm" variant="primary"/>
+        <Button onclick={()=>handleSubmit()} text="Signup" size="sm" variant="primary"/>
         </div>
         <p className='mt-2 text-[13px] pt-3'>already have an account ? <Link to="/login" className=''>login</Link></p>
         </div>

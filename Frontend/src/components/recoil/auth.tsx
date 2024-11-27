@@ -10,7 +10,7 @@ export interface LoginState {
 export interface SignupState {
   email: string;
   password: string;
-  confirmPassword: string;
+  username: string;
 }
 
 // Atom for managing login state
@@ -29,6 +29,6 @@ export const signupState = atom<SignupState>({
   default: {
     email: "",
     password: "",
-    confirmPassword: "",
+    username: "",
   },
 });
