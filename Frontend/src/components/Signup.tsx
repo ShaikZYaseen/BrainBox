@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom'
 import { Signupauth } from '../services/auth'
 
 const Signup = () => {
-    const [name,setName] = useState("");
+    const [username,setUsername] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [loading,setLoading] = useState(false)
 
     const handleSubmit = async() => {
        setLoading(true) ;
-       const data = {name,email,password}
+       const data = {username,email,password}
        const response = await Signupauth(data);
        console.log(response)
     }
@@ -23,7 +23,7 @@ const Signup = () => {
         <div className='h-[400px] w-[300px] bg-gray-300 rounded-2xl pt-7 flex flex-col justify-center items-center'>
         <div className='mb-2 p-2'>
         <p className='font-bold pb-1'>Username :</p>
-        <Input size="md" type="text" onChange={(e)=>setName(e.target.value)} placeholder="Enter your name."/>
+        <Input size="md" type="text" onChange={(e)=>setUsername(e.target.value)} placeholder="Enter your name."/>
          </div>
         <div className='mb-2 p-2'>
         <p className='font-bold pb-1'>Email :</p>
