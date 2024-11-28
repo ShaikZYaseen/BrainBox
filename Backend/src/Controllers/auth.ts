@@ -30,6 +30,7 @@ import { User } from '../Models/user';
 
         res.status(200).json({
             success: true,
+            user,
             message: "Login successful",
             token,
         });
@@ -41,7 +42,6 @@ import { User } from '../Models/user';
 // Signup controller
 const signupController = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const { username, email, password } = req.body;
-    console.log(req.headers)
     if (!username || !email || !password) {
         res.status(400).json({ message: "Please provide username, email, and password." });
         return;

@@ -5,7 +5,8 @@ interface ButtonInterface {
     startIcon?: ReactElement;
     size: "lg" | "sm" | "md";
     endIcon?: ReactElement;
-    onclick?: ()=>void;
+    loading?:boolean,
+    onClick?: () => void;
     variant: "primary" | "secondary";
 }
 
@@ -16,20 +17,20 @@ const sizeStyles = {
 };
 
 const variantStyles = {
-    primary: "bg-black text-white",
-    secondary: "bg-white text-black", // Fixed text color
+    primary: "bg-black text-white hover:bg-gray-800", // Add hover effect for primary
+    secondary: "bg-white text-black hover:bg-gray-100 hover:text-gray-800", // Add hover effect for secondary
 };
 
 export function Button(props: ButtonInterface) {
-    const className = `${sizeStyles[props.size] ?? ""} ${variantStyles[props.variant] ?? ""}`;
+    const { text, startIcon, endIcon, size, variant,loading, onClick } = props;
+
+    const className = `${sizeStyles[size]} ${variantStyles[variant]} flex items-center justify-center transition duration-200`;
 
     return (
-        <button className={className}>
-            <div className="flex items-center">
-                {props.startIcon && <span className="mr-2">{props.startIcon}</span>}
-                <button onClick={props.onclick} className="rounded-md">{props.text}</button>
-                {props.endIcon && <span className="ml-2">{props.endIcon}</span>}
-            </div>
+        <button disabled={loading || false} className={className} onClick={onClick}>
+            {startIcon && <span className="mr-2">{startIcon}</span>}
+            <span>{loading ? "loading" : text}</span>
+            {endIcon && <span className="ml-2">{endIcon}</span>}
         </button>
     );
 }

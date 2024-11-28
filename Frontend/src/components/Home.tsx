@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InstagramIcon } from './icons/Instagram';
 import { TwitterIcon } from './icons/Twitter';
 import { YoutubeIcon } from './icons/Youtube';
 import Content from './Content';
+import { userState } from './recoil/auth';
+import { useRecoilValue } from 'recoil';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const options: Array<string> = ['Twitter', 'Youtube', 'Instagram'];
+  const user = useRecoilValue(userState)
+  const navigate = useNavigate();
   const icons: Array<React.ReactElement> = [<TwitterIcon />, <YoutubeIcon />, <InstagramIcon />];
+
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+      if(!token){
+          navigate("/login");
+          toast.error("You have logged out. Please login")
+      }
+  },[user])
 
   return (
     <div className="w-screen h-screen bg-black flex">
+      <Toaster/>
       <div className="bg-gray-50 h-screen w-[15vw] flex flex-col justify-center items-center">
         {options &&
           options.map((option, index) => (
@@ -19,7 +34,7 @@ function Home() {
             </div>
           ))}
       </div>
-      <div className="flex-grow bg-gray-800 flex justify-center items-center">
+      <div className="flex-grow bg-black flex justify-center items-center">
         <Content/>
       </div>
     </div>
