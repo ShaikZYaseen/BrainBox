@@ -30,3 +30,13 @@ export const Loginauth = async (data:loginData): Promise<any> => {
     return {error:true, message:"Internal server error"};
   }
 };
+
+export const Logoutauth = async (): Promise<any> => {
+  const url = "http://localhost:3000/api/v1/user/logout";
+try {
+  
+} catch (error) {
+  return {error:true, message:"Internal server error"};
+
+}
+};

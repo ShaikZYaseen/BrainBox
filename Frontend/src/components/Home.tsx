@@ -7,6 +7,7 @@ import { userState } from './recoil/auth';
 import { useRecoilValue } from 'recoil';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import LogoutButton from './ui/LogoutButton';
 
 function Home() {
   const options: Array<string> = ['Twitter', 'Youtube', 'Instagram'];
@@ -26,6 +27,9 @@ function Home() {
     <div className="w-screen h-screen bg-black flex">
       <Toaster/>
       <div className="bg-gray-50 h-screen w-[15vw] flex flex-col justify-center items-center">
+        <span className='fixed top-2 right-2 z-50'>
+          <LogoutButton></LogoutButton>
+        </span>
         {options &&
           options.map((option, index) => (
             <div key={option} className="w-full p-3 hover:bg-gray-300 flex items-center cursor-pointer space-x-2">

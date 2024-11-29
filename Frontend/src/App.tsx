@@ -4,8 +4,10 @@ import Signup from './components/Signup.tsx';
 import { Toaster } from 'react-hot-toast';
 import Home from './components/Home.tsx';
 import { RecoilRoot } from 'recoil';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
 
 function App() {
+  
   return (
     <> 
     <RecoilRoot>     
@@ -14,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup/>}/>
-        <Route path="/dashboard" element={<Home/>}/>
+        <Route path="/dashboard" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
       </Routes>
     </Router>
     </RecoilRoot>
