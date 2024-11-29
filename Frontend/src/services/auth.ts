@@ -10,33 +10,54 @@ export const Signupauth = async (data: SignupData): Promise<any> => {
   const url = "http://localhost:3000/api/v1/user/signup";
   try {
     const response = await axios.post(url, data);
-    return response;
+    if (response.data.success) {
+      return response.data;
+    } else {
+      return { error: true, message: response.data.message || "An error occurred during signup" };
+    }
   } catch (error) {
-    return {error:true, message:"Internal server error"}
+    return { error: true, message: error?.response?.data?.message || "Internal server error" };
   }
 };
 
-interface loginData{
-  email:string,
-  password:string
+interface loginData {
+  email: string;
+  password: string;
 }
 
-export const Loginauth = async (data:loginData): Promise<any> => {
+export const Loginauth = async (data: loginData): Promise<any> => {
   const url = "http://localhost:3000/api/v1/user/login";
   try {
-    const response = await axios.post(url,data);
-    return response.data;
+    const response = await axios.post(url, data);
+    if (response.data.success) {
+      return response.data;
+    } else {
+      return { error: true, message: response.data.message || "Invalid credentials" };
+    }
   } catch (error) {
-    return {error:true, message:"Internal server error"};
+    return { error: true, message: error?.response?.data?.message || "Internal server error" };
   }
 };
 
 export const Logoutauth = async (): Promise<any> => {
   const url = "http://localhost:3000/api/v1/user/logout";
-try {
+  const token = localStorage.getItem("token");
   
-} catch (error) {
-  return {error:true, message:"Internal server error"};
+  try {
+    const response = await axios.post(url, {}, { // Passing empty body since logout doesn't need one
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-}
+    if (response.data.success) {
+      return response.data;
+    } else {
+      return { error: true, message: response.data.message || "An error occurred during logout" };
+    }
+  } catch (error: any) {
+    return { error: true, message: error?.response?.data?.message || "Internal server error" };
+  }
 };
+

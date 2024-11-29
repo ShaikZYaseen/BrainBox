@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from './ui/LogoutButton';
+import { Logoutauth } from '../services/auth';
 
 function Home() {
   const options: Array<string> = ['Twitter', 'Youtube', 'Instagram'];
@@ -23,11 +24,22 @@ function Home() {
       }
   },[user])
 
+  const handleLogout = async() => {
+    const response = await Logoutauth();
+    if(!response.error){
+    localStorage.removeItem("token");
+      navigate("/login")
+      toast.success(response.message)
+    }else{
+      toast.error("Failed to logout")
+    }
+  }
+
   return (
     <div className="w-screen h-screen bg-black flex">
       <Toaster/>
       <div className="bg-gray-50 h-screen w-[15vw] flex flex-col justify-center items-center">
-        <span className='fixed top-2 right-2 z-50'>
+        <span onClick={handleLogout} className='fixed top-2 p-0 right-2 z-50'>
           <LogoutButton></LogoutButton>
         </span>
         {options &&

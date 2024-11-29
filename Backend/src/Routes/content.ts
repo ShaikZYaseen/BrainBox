@@ -1,5 +1,5 @@
 import express from "express";
-import { addContent,deleteContent,getContent,shareContent,accessSharedContent } from "../Controllers/content.js";
+import { addContent,deleteContent,getContent,shareContent,accessSharedContent } from "../Controllers/content";
 
 const contentRouter = express.Router();
 

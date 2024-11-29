@@ -1,41 +1,54 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../Models/user';
-import jwt from 'jsonwebtoken'; // Ensure you have this imported
+import jwt from 'jsonwebtoken';
 
 // Login Controller
 const loginController = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        res.status(400).json({ message: "Please provide both email and password." });
-        return;
+        return res.status(400).json({
+            success: false,
+            message: "Please provide both email and password."
+        });
     }
 
     try {
         const user = await User.findOne({ email }).exec();
         if (!user) {
-            res.status(401).json({ message: "Invalid credentials." });
-            return;
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials."
+            });
         }
 
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            res.status(401).json({ message: "Invalid credentials." });
-            return;
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials."
+            });
         }
 
         const token = user.getJWTToken();
 
         res.setHeader("Authorization", `Bearer ${token}`);
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
-            user,
             message: "Login successful",
             token,
+            user: {
+                id: user._id,
+                email: user.email
+            }
         });
     } catch (error) {
-        return res.status(500).json({ message: "Internal server error" });
+        console.error("Login error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
     }
 };
 
@@ -43,15 +56,19 @@ const loginController = async (req: Request, res: Response, next: NextFunction):
 const signupController = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
-        res.status(400).json({ message: "Please provide username, email, and password." });
-        return;
+        return res.status(400).json({
+            success: false,
+            message: "Please provide username, email, and password."
+        });
     }
 
     try {
         const userExists = await User.findOne({ email }).exec();
         if (userExists) {
-            res.status(400).json({ message: "Email already exists." });
-            return;
+            return res.status(400).json({
+                success: false,
+                message: "Email already exists."
+            });
         }
 
         const newUser = new User({
@@ -66,23 +83,33 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         res.setHeader("Authorization", `Bearer ${token}`);
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
-            user,
             message: "User registered successfully",
             token,
+            user: {
+                id: user._id,
+                email: user.email
+            }
         });
     } catch (error) {
-        return res.status(500).json({ message: "Internal server error" });
+        console.error("Signup error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
     }
 };
 
 // Check if logged in
- const isLoggedin = async (req: Request, res: Response): Promise<any> => {
+const isLoggedin = async (req: Request, res: Response): Promise<any> => {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-        return res.status(401).json({ success: false, message: "Unauthorized: No token provided." });
+        return res.status(401).json({
+            success: false,
+            message: "Unauthorized: No token provided."
+        });
     }
 
     try {
@@ -90,32 +117,41 @@ const signupController = async (req: Request, res: Response, next: NextFunction)
 
         const user = await User.findById(decoded.id).exec();
         if (!user) {
-            return res.status(401).json({ success: false, message: "Unauthorized: Invalid token." });
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: Invalid token."
+            });
         }
 
-        // Respond with success
-        return res.status(200).json({ success: true, user: { id: user.id, email: user.email } });
+        return res.status(200).json({
+            success: true,
+            user: { id: user.id, email: user.email }
+        });
     } catch (error) {
         console.error("Error in isLoggedin middleware:", error);
-        return res.status(401).json({ success: false, message: "Unauthorized: Invalid token or expired session." });
+        return res.status(401).json({
+            success: false,
+            message: "Unauthorized: Invalid token or expired session."
+        });
     }
 };
 
-
-
-const logoutController = (req: Request, res: Response): void => {
+// Logout Controller
+const logoutController = async(req: Request, res: Response): Promise<any> => {
     try {
-        // Clear the Authorization header or cookies depending on implementation
         res.setHeader("Authorization", ""); // Clear Authorization header
         res.clearCookie("token", { httpOnly: true, secure: true }); // Clear token cookie if used
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
-            message: "Logout successful",
+            message: "Logout successful"
         });
     } catch (error) {
-        console.error("Error during logout:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        console.error("Logout error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
     }
 };
 
