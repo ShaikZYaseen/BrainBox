@@ -10,17 +10,15 @@ dotenv.config();
 
 const app = express();
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-    origin:'*',
-    credentials:true
-}
+  origin: "https://brainbox-1.onrender.com/",
+  credentials: true,
+};
 
 app.use(cors(corsOptions));
-
 
 // Set up the routes
 app.use("/api/v1/user", userRouter);
@@ -28,6 +26,6 @@ app.use("/api/v1/content", contentRouter);
 
 // Start the server
 app.listen(process.env.PORT || 3000, () => {
-connectDb();
+  connectDb();
   console.log("Listening on port 3000");
 });
