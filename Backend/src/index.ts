@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: "*",
+  origin: "https://brain-box-hxvy.vercel.app",
   credentials: true,
 };
 
