@@ -20,7 +20,7 @@ const handleDelete = async (id: string) => {
 
 const TwitterCard = (props: TwitterProps) => {
   return (
-    <div className="p-4 bg-white border rounded-lg shadow-lg max-w-[300px] mt-2">
+    <div className="p-4 bg-white border rounded-lg shadow-lg  mt-2">
       <Toaster />
       <div className="h-full w-full">
         <div className="flex justify-between items-center">

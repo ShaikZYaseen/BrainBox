@@ -34,11 +34,13 @@ function InstagramReelCard({ reelLink, title, _id }: InstagramReelCardProps) {
 
   return (
     <div
-      className={`p-2 border border-gray-300 rounded-lg shadow-lg flex flex-col items-center h-full w-[350px]`}
+      className={`p-2 border bg-white border-gray-300 rounded-lg shadow-lg flex flex-col items-center h-full w-[350px]`}
     >
       <Toaster />
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-bold mb-2 flex justify-start">{title}</h2>
+        <h2 className="text-lg text-black font-bold mb-2 flex justify-start">
+          {title}
+        </h2>
 
         <span
           className="hover:text[30px] cursor-pointer"

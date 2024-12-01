@@ -81,7 +81,12 @@ const getContent = async (req: Request, res: Response): Promise<void> => {
     //@ts-ignore
     const userId = req.userId;
 
-    const content = await Content.find({ userId });
+    const query = req.query.search;
+
+    const content = await Content.find({
+      userId,
+      tags: { $regex: query, $options: "i" },
+    });
 
     if (!content || content.length === 0) {
       res

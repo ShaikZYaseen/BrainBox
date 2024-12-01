@@ -32,11 +32,10 @@ export const addContent = async (data: contentType): Promise<any> => {
     };
   }
 };
-
-export const getContent = async (): Promise<any> => {
+export const getContent = async (data: string): Promise<any> => {
   const token = localStorage.getItem("token");
 
-  const url = "http://localhost:3000/api/v1/content/get-content";
+  const url = `http://localhost:3000/api/v1/content/get-content?search=${data}`;
   try {
     const response = await axios.get(url, {
       headers: {

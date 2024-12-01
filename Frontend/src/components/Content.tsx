@@ -14,6 +14,8 @@ import InstagramReelCard from "./cards/InstagramReelCard";
 interface contentProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  content: itemType[]; // Change content type to an array of itemType
+  setContent: React.Dispatch<React.SetStateAction<itemType[]>>; // Correct type for setContent
 }
 
 interface itemType {
@@ -28,7 +30,6 @@ export function Content(props: contentProps) {
   const [link, setLink] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [content, setContent] = useState<itemType[]>([]);
 
   const type: { value: string; label: string }[] = [
     { value: "Twitter post", label: "Twitter post" },
@@ -66,8 +67,8 @@ export function Content(props: contentProps) {
 
   const getData = async () => {
     setLoading(true);
-    const response = await getContent();
-    setContent(response.content);
+    const response = await getContent("");
+    props.setContent(response.content);
     setLoading(false);
   };
 
@@ -122,50 +123,66 @@ export function Content(props: contentProps) {
             </div>
           </Modal>
 
-          <div className="flex justify-around flex-wrap  items-center h-full mt-[45px] p-4">
-            {content &&
-              content.map((item: itemType) => {
+          <div className="flex justify-around flex-wrap items-center h-full mt-[70px]">
+            {props.content &&
+              props.content.map((item: itemType) => {
                 if (item?.tags === "Twitter post") {
                   return (
-                    <TwitterCard
-                      _id={item._id}
-                      tweetUrl={item.link}
-                      text={item.title}
+                    <div
+                      className="w-full sm:w-1/2 lg:w-1/3 p-2"
                       key={item.link}
-                    />
+                    >
+                      <TwitterCard
+                        _id={item._id}
+                        tweetUrl={item.link}
+                        text={item.title}
+                      />
+                    </div>
                   );
                 }
 
                 if (item?.tags === "Twitter video post") {
                   return (
-                    <TwitterVideoCard
-                      _id={item._id}
-                      tweetUrl={item.link}
-                      title={item.title}
+                    <div
+                      className="w-full sm:w-1/2 lg:w-1/3 p-2"
                       key={item.link}
-                    />
+                    >
+                      <TwitterVideoCard
+                        _id={item._id}
+                        tweetUrl={item.link}
+                        title={item.title}
+                      />
+                    </div>
                   );
                 }
 
                 if (item?.tags === "Youtube") {
                   return (
-                    <YoutubeCard
-                      _id={item._id}
-                      youtubeLink={item.link}
-                      title={item.title}
+                    <div
+                      className="w-full sm:w-1/2 lg:w-1/3 p-2"
                       key={item.link}
-                    />
+                    >
+                      <YoutubeCard
+                        _id={item._id}
+                        youtubeLink={item.link}
+                        title={item.title}
+                      />
+                    </div>
                   );
                 }
 
                 if (item?.tags === "Instagram post") {
                   return (
-                    <InstagramReelCard
-                      _id={item._id}
-                      reelLink={item.link}
-                      title={item.title}
+                    <div
+                      className="w-full sm:w-1/2 lg:w-1/3 p-2"
                       key={item.link}
-                    />
+                    >
+                      <InstagramReelCard
+                        _id={item._id}
+                        reelLink={item.link}
+                        title={item.title}
+                      />
+                    </div>
                   );
                 }
 
