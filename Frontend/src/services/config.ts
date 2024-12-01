@@ -1,2 +1,3 @@
-//@ts-ignore
-export const BACKEND_URL = process.env.BACKEND_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
+
+export const BACKEND_URL = apiUrl;
