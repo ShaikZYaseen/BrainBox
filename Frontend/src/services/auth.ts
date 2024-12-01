@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BACKEND_URL } from "./config";
 
 interface SignupData {
   username: string;
@@ -7,7 +8,7 @@ interface SignupData {
 }
 
 export const Signupauth = async (data: SignupData): Promise<any> => {
-  const url = "http://localhost:3000/api/v1/user/signup";
+  const url = `${BACKEND_URL}/api/v1/user/signup`;
   try {
     const response = await axios.post(url, data);
     if (response.data.success) {
@@ -33,7 +34,7 @@ interface loginData {
 }
 
 export const Loginauth = async (data: loginData): Promise<any> => {
-  const url = "http://localhost:3000/api/v1/user/login";
+  const url = `${BACKEND_URL}/api/v1/user/login`;
   try {
     const response = await axios.post(url, data);
     if (response.data.success) {
@@ -54,7 +55,7 @@ export const Loginauth = async (data: loginData): Promise<any> => {
 };
 
 export const Logoutauth = async (): Promise<any> => {
-  const url = "http://localhost:3000/api/v1/user/logout";
+  const url = `${BACKEND_URL}/api/v1/user/logout`;
   const token = localStorage.getItem("token");
 
   try {

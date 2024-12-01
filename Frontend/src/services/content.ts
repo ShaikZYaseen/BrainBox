@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BACKEND_URL } from "./config";
 
 interface contentType {
   title: string;
@@ -9,7 +10,7 @@ interface contentType {
 export const addContent = async (data: contentType): Promise<any> => {
   const token = localStorage.getItem("token");
 
-  const url = "http://localhost:3000/api/v1/content/add-content";
+  const url = `${BACKEND_URL}/api/v1/content/add-content`;
   try {
     const response = await axios.post(url, data, {
       headers: {
@@ -36,7 +37,7 @@ export const addContent = async (data: contentType): Promise<any> => {
 export const getContent = async (data: string): Promise<any> => {
   const token = localStorage.getItem("token");
 
-  const url = `http://localhost:3000/api/v1/content/get-content?search=${data}`;
+  const url = `${BACKEND_URL}/api/v1/content/get-content?search=${data}`;
   try {
     const response = await axios.get(url, {
       headers: {
@@ -64,7 +65,7 @@ export const getContent = async (data: string): Promise<any> => {
 export const deleteContent = async (id: string): Promise<any> => {
   const token = localStorage.getItem("token");
 
-  const url = `http://localhost:3000/api/v1/content/delete-content/${id}`;
+  const url = `${BACKEND_URL}/api/v1/content/delete-content/${id}`;
   try {
     const response = await axios.delete(url, {
       headers: {
