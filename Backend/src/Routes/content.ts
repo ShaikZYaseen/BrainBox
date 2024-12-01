@@ -1,12 +1,13 @@
 import express from "express";
 import { addContent,deleteContent,getContent,shareContent,accessSharedContent } from "../Controllers/content";
+import { userMiddleware } from "../Common/authMiddleware";
 
 const contentRouter = express.Router();
 
-contentRouter.post("/content", addContent);
-contentRouter.delete("/content/:id", deleteContent);
-contentRouter.get("/content", getContent);
-contentRouter.get("/content/share/:id", shareContent); 
-contentRouter.get("/share/:id", accessSharedContent); 
+contentRouter.post("/add-content",userMiddleware, addContent);
+contentRouter.delete("/delete-content/:id",userMiddleware, deleteContent);
+contentRouter.get("/get-content", userMiddleware, getContent);
+contentRouter.get("/share-content/share/:id", userMiddleware, shareContent); 
+contentRouter.get("/share/:id",userMiddleware, accessSharedContent); 
 
 export default contentRouter;

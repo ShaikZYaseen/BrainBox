@@ -4,25 +4,39 @@ import { Content } from "../Models/content";
 // Add Content
 const addContent = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { link, tags, title }: any = req.body;
+    const { link, selectedType, title }: any = req.body;
 
-    if (!link || !tags || !title) {
-      res.status(400).json({ message: "All fields are required" });
+    // Validate all required fields
+    if (!link || !selectedType || !title) {
+      res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
       return;
     }
-      const arr = [tags]
+
+    // Validate if `link` is a valid URL
+    try {
+      new URL(link); // Throws if the link is not valid
+    } catch (_) {
+      res.status(400).json({ success: false, message: "Invalid URL provided" });
+      return;
+    }
+
     const content = await Content.create({
       link,
-      tags:arr,
+      tags: selectedType,
       title,
-      //@ts-ignore
+      // @ts-ignore
       userId: req.userId,
     });
 
-    res.json({ message: "Content added", content });
+    res.json({ success: true, message: "Content added", content });
   } catch (error) {
     console.error("Error adding content:", error);
-    res.status(500).json({ message: "An error occurred while adding content" });
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while adding content",
+    });
   }
 };
 
@@ -32,7 +46,9 @@ const deleteContent = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
 
     if (!id) {
-      res.status(400).json({ message: "Content ID is required" });
+      res
+        .status(400)
+        .json({ success: false, message: "Content ID is required" });
       return;
     }
 
@@ -42,14 +58,20 @@ const deleteContent = async (req: Request, res: Response): Promise<void> => {
     const content = await Content.findOneAndDelete({ _id: id, userId });
 
     if (!content) {
-      res.status(404).json({ message: "Content not found or not authorized to delete" });
+      res.status(404).json({
+        success: false,
+        message: "Content not found or not authorized to delete",
+      });
       return;
     }
 
-    res.json({ message: "Content deleted successfully" });
+    res.json({ success: true, message: "Content deleted successfully" });
   } catch (error) {
     console.error("Error deleting content:", error);
-    res.status(500).json({ message: "An error occurred while deleting content" });
+    res.status(500).json({
+      success: true,
+      message: "An error occurred while deleting content",
+    });
   }
 };
 
@@ -62,14 +84,22 @@ const getContent = async (req: Request, res: Response): Promise<void> => {
     const content = await Content.find({ userId });
 
     if (!content || content.length === 0) {
-      res.status(404).json({ message: "No content found for the user" });
+      res
+        .status(404)
+        .json({ success: false, message: "No content found for the user" });
       return;
     }
 
-    res.json(content);
+    res.json({
+      success: true,
+      content,
+    });
   } catch (error) {
     console.error("Error fetching content:", error);
-    res.status(500).json({ message: "An error occurred while fetching content" });
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching content",
+    });
   }
 };
 
@@ -79,7 +109,9 @@ const shareContent = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
 
     if (!id) {
-      res.status(400).json({ message: "Content ID is required to generate a shareable link" });
+      res.status(400).json({
+        message: "Content ID is required to generate a shareable link",
+      });
       return;
     }
 
@@ -89,28 +121,37 @@ const shareContent = async (req: Request, res: Response): Promise<void> => {
     const content = await Content.findOne({ _id: id, userId });
 
     if (!content) {
-      res.status(404).json({ message: "Content not found or not authorized to access" });
+      res
+        .status(404)
+        .json({ message: "Content not found or not authorized to access" });
       return;
     }
 
     // Assuming a base URL for shareable links
-    const baseUrl = "https://yourapp.com/share";
+    const baseUrl = "http://localhost:5173/share";
     const shareableLink = `${baseUrl}/${content._id}`;
 
     res.json({ message: "Shareable link generated", link: shareableLink });
   } catch (error) {
     console.error("Error generating shareable link:", error);
-    res.status(500).json({ message: "An error occurred while generating the shareable link" });
+    res.status(500).json({
+      message: "An error occurred while generating the shareable link",
+    });
   }
 };
 
 // Handle Shareable Link (Access Content by ID)
-const accessSharedContent = async (req: Request, res: Response): Promise<void> => {
+const accessSharedContent = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
 
     if (!id) {
-      res.status(400).json({ message: "Content ID is required to access shared content" });
+      res
+        .status(400)
+        .json({ message: "Content ID is required to access shared content" });
       return;
     }
 
@@ -124,8 +165,16 @@ const accessSharedContent = async (req: Request, res: Response): Promise<void> =
     res.json({ message: "Content retrieved successfully", content });
   } catch (error) {
     console.error("Error retrieving shared content:", error);
-    res.status(500).json({ message: "An error occurred while retrieving shared content" });
+    res
+      .status(500)
+      .json({ message: "An error occurred while retrieving shared content" });
   }
 };
 
-export { addContent, deleteContent, getContent, shareContent, accessSharedContent };
+export {
+  addContent,
+  deleteContent,
+  getContent,
+  shareContent,
+  accessSharedContent,
+};
