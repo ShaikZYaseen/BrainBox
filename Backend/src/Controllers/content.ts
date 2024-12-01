@@ -4,20 +4,19 @@ import { Content } from "../Models/content";
 // Add Content
 const addContent = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { link, type, title }: any = req.body;
+    const { link, tags, title }: any = req.body;
 
-    if (!link || !type || !title) {
+    if (!link || !tags || !title) {
       res.status(400).json({ message: "All fields are required" });
       return;
     }
-
+      const arr = [tags]
     const content = await Content.create({
       link,
-      type,
+      tags:arr,
       title,
       //@ts-ignore
       userId: req.userId,
-      tags: [],
     });
 
     res.json({ message: "Content added", content });
