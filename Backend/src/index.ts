@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: "https://brainbox-1.onrender.com",
+  origin: "*",
   credentials: true,
 };
 
@@ -26,7 +26,7 @@ app.use("/api/v1/content", contentRouter);
 
 // Start the server
 //@ts-ignore
-app.listen(process.env.PORT || 3000, "0.0.0.0", () => {
+app.listen(process.env.PORT || 3000, () => {
   connectDb();
   console.log(`Server running on port ${process.env.PORT || 3000}`);
 });
