@@ -13,7 +13,6 @@ const handleDelete = async (id: string) => {
   const response = await deleteContent(id);
   if (response.success) {
     toast.success(response.message);
-    await getContent();
   } else {
     toast.error(response.message);
   }

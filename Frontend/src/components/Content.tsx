@@ -68,7 +68,6 @@ export function Content(props: contentProps) {
     setLoading(true);
     const response = await getContent();
     setContent(response.content);
-    console.log(response.content);
     setLoading(false);
   };
 

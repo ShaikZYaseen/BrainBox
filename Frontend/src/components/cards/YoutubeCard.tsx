@@ -14,7 +14,6 @@ const YoutubeCard: React.FC<YoutubeProps> = ({ youtubeLink, title, _id }) => {
     const response = await deleteContent(id);
     if (response.success) {
       toast.success(response.message);
-      await getContent();
     } else {
       toast.error(response.message);
     }

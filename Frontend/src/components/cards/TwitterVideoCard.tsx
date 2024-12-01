@@ -27,7 +27,6 @@ function TwitterVideoCard({ tweetUrl, title, _id }: TwitterVideoCardProps) {
     const response = await deleteContent(id);
     if (response.success) {
       toast.success(response.message);
-      await getContent();
     } else {
       toast.error(response.message);
     }

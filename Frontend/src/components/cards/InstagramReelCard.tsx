@@ -26,7 +26,6 @@ function InstagramReelCard({ reelLink, title, _id }: InstagramReelCardProps) {
   const handleDelete = async (id: string) => {
     const response = await deleteContent(id);
     if (response.success) {
-      await getContent();
       toast.success(response.message);
     } else {
       toast.error(response.message);
