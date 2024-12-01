@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: "https://brainbox-1.onrender.com/",
+  origin: "https://brainbox-1.onrender.com",
   credentials: true,
 };
 
