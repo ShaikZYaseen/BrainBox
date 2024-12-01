@@ -19,7 +19,7 @@ const Select: React.FC<SelectProps> = ({ options, value, onChange, placeholder, 
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="block w-full bg-black text-white px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-300 disabled:bg-gray-100 disabled:cursor-not-allowed"
+        className="block w-full bg-black text-white text-[10px] px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-300 disabled:bg-gray-100 disabled:cursor-not-allowed"
         disabled={disabled}
       >
         {placeholder && <option value="" disabled>{placeholder}</option>}
