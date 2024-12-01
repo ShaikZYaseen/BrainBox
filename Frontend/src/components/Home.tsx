@@ -20,12 +20,6 @@ interface ContentItem {
   tags: string;
 }
 
-interface GetContentResponse {
-  success: boolean;
-  message: string;
-  content: ContentItem[];
-}
-
 function Home() {
   const options: Array<string> = ["Twitter", "Youtube", "Instagram"];
   const user = useRecoilValue(userState);

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { deleteContent, getContent } from "../../services/content";
+import { deleteContent } from "../../services/content";
 import toast, { Toaster } from "react-hot-toast";
 import DeleteIcon from "../icons/DeleteIcon";
 

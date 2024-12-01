@@ -28,6 +28,7 @@ export const addContent = async (data: contentType): Promise<any> => {
   } catch (error) {
     return {
       error: true,
+      // @ts-ignore
       message: error?.response?.data?.message || "Internal server error",
     };
   }
@@ -54,6 +55,7 @@ export const getContent = async (data: string): Promise<any> => {
   } catch (error) {
     return {
       error: true,
+      // @ts-ignore
       message: error?.response?.data?.message || "Internal server error",
     };
   }
@@ -81,6 +83,7 @@ export const deleteContent = async (id: string): Promise<any> => {
   } catch (error) {
     return {
       error: true,
+      // @ts-ignore
       message: error?.response?.data?.message || "Internal server error",
     };
   }

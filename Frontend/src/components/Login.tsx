@@ -13,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  //@ts-ignore
   const [user, setUser] = useRecoilState(userState);
 
   const handleLogin = async () => {
