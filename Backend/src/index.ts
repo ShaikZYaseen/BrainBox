@@ -25,7 +25,8 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/content", contentRouter);
 
 // Start the server
-app.listen(process.env.PORT || 3000, () => {
+//@ts-ignore
+app.listen(process.env.PORT || 3000, "0.0.0.0", () => {
   connectDb();
-  console.log("Listening on port 3000");
+  console.log(`Server running on port ${process.env.PORT || 3000}`);
 });
