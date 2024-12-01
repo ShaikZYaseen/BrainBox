@@ -1,1 +1,2 @@
-export const BACKEND_URL = "https://brainbox-5xit.onrender.com";
+//@ts-ignore
+export const BACKEND_URL = process.env.BACKEND_URL;
